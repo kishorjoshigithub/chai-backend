@@ -1,14 +1,14 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import ENV from "./config/env";
+import "dotenv/config";
 
 const app = express();
 
 // middlewares
 app.use(
   cors({
-    origin: `${ENV.CORS_ORIGIN}`,
+    origin: `${process.env.CORS_ORIGIN}`,
     credentials: true,
   })
 );
@@ -16,5 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
+
+//Routes import
+import userRouter from "./routes/user.routes.js";
+
+//Routes declearation
+app.use("/api/v1/users", userRouter);
 
 export default app;
